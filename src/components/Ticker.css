@@ -1,0 +1,29 @@
+/* Ticker.css */
+.ticker-container {
+    background-color: #000;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 15px 0;
+    border-top: 4px solid #ff0000; /* Red border */
+    border-bottom: 4px solid #ff0000; /* Red border */
+    box-shadow: 0 0 15px #ff0000; /* Red glow effect */
+    margin-bottom: 30px; /* Add spacing below the ticker */
+  }
+  
+  .ticker-content {
+    display: inline-block;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2rem; /* Increase font size */
+    color: #ff0000; /* Red text color */
+    animation: ticker 10s linear infinite;
+  }
+  
+  @keyframes ticker {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
