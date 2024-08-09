@@ -13,14 +13,14 @@ function App() {
     name: 'Bitcoin',
     title: 'Bitcoin',
     price: 'Loading...',
-    lastUpdate: '12:34:5678',
+    lastUpdate: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
     icon: bitcoinLogo,
   });
 
   async function fetchExchangeRates() {
     const assets = ['BTC', 'ETH', 'USDC'];
     const promises = assets.map(asset => {
-      const fsym = asset === 'USDC' ? 'USDT' : asset; // Use USDT for USDC
+      const fsym = asset;
       return axios.get(`https://min-api.cryptocompare.com/data/price?fsym=${fsym}&tsyms=USD`);
     });
     const responses = await Promise.all(promises);
