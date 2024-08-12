@@ -48,6 +48,7 @@ func Server(ctx context.Context, args []string, stdout, stderr *os.File) error {
 func landingPageHandler(indexFile string, data PageData) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
+		w.Header().Set("Cache-Control", "no-cache")
 
 		tmp, err := template.ParseFiles(indexFile)
 		if err != nil {
@@ -79,6 +80,7 @@ func coinPriceHandler(templateFile string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		w.Header().Set("Content-Type", "text/html")
+		w.Header().Set("Cache-Control", "no-cache")
 
 		tmp, err := template.ParseFiles(templateFile)
 		if err != nil {
@@ -117,6 +119,7 @@ func newsHandler(templateFile string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		w.Header().Set("Content-Type", "text/html")
+		w.Header().Set("Cache-Control", "max-age=3600")
 
 		tmp, err := template.ParseFiles(templateFile)
 		if err != nil {
