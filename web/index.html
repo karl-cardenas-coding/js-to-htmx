@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>js-to-HTMX</title>
+        <script src="/static/dependencies/htmx.min.js"></script>
+        <link rel="stylesheet" href="/static/styles/app.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+        <link rel="manifest" href="/static/manifest">
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <body>
+      <div class="app">
+        <div class="ticker-container">
+          <div class="ticker-content">
+          🤑 DAILY COIN PRICES 🤑
+          </div>
+        </div>
+        <div class="content-box">
+          <div class="button-group">
+            <button >Bitcoin</button>
+            <button >Ethereum</button>
+            <button >USDC</button>
+          </div>
+          <div class="bitcoin-price-container">
+            <div class="heading">
+                {{.CoinName}}
+            </div>
+            <div class="tv-screen">
+              <div class="screen-content">
+                <img src={icon} alt="Coin Icon" class="coin-icon" />
+                <span class="currency">$</span>{{.Price}}
+              </div>
+            </div>
+            <div class="last-update">
+              Last Update:{{.LastUpdated}}
+            </div>
+          </div>
+        </div>
+        <footer class="footer">
+          <a href="#link1">Link 1</a>
+          <a href="#link2">Link 2</a>
+          <a href="#link3">Link 3</a>
+        </footer>
+      </div>
+    </body>
+
+  
+  </body>
+</html>

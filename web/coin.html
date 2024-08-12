@@ -1,0 +1,14 @@
+<div className="bitcoin-price-container">
+    <div className="heading">
+        {{.CoinName}}
+    </div>
+    <div className="tv-screen">
+      <div className="screen-content">
+        <img src={icon} alt="Coin Icon" className="coin-icon" />
+        <span className="currency">$</span>{{.Price}}
+      </div>
+    </div>
+    <div className="last-update">
+      Last Update:{{.LastUpdate}}
+    </div>
+  </div>

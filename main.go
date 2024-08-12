@@ -2,14 +2,10 @@ package main
 
 import (
 	"context"
-	"embed"
 	"os"
 
 	"github.com/karl-cardenas-coding/js-to-htmx/cmd"
 )
-
-//go:embed all:web/*
-var staticAssets embed.FS
 
 func main() {
 
@@ -28,5 +24,5 @@ func run(
 	stderr *os.File,
 ) error {
 
-	return cmd.Server(ctx, args, stdout, stderr, staticAssets)
+	return cmd.Server(ctx, args, stdout, stderr)
 }

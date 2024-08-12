@@ -1,0 +1,154 @@
+/* App.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Press Start 2P', cursive; /* Retro font */
+    background: linear-gradient(135deg, #ffa726, #ffd54f); /* Smooth background with orange and yellow */
+    color: #fff; /* Text color */
+  }
+  
+  .app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .content-box {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 20px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+  
+  .footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .footer a {
+    margin: 0 10px;
+    color: #ffeb3b; /* Bright yellow link color */
+    text-decoration: none;
+    font-weight: bold; /* Make the links bolder for better readability */
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+    color: #ffffff; /* Change link color to white on hover for contrast */
+  }
+
+/* Ticker.css */
+.ticker-container {
+    background-color: #000;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 15px 0;
+    border-top: 4px solid #ff0000; /* Red border */
+    border-bottom: 4px solid #ff0000; /* Red border */
+    box-shadow: 0 0 15px #ff0000; /* Red glow effect */
+    margin-bottom: 30px; /* Add spacing below the ticker */
+  }
+  
+  .ticker-content {
+    display: inline-block;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2rem; /* Increase font size */
+    color: #ff0000; /* Red text color */
+    animation: ticker 10s linear infinite;
+  }
+  
+  @keyframes ticker {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* BitcoinPrice.css */
+.bitcoin-price-container {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .heading {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2.5rem;
+    color: #ffa726;
+    text-shadow: 2px 2px 0px #ffd54f, 4px 4px 0px #000000;
+    margin-bottom: 20px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+/* BitcoinPrice.css */
+
+.button-group button {
+    background-color: #ffb74d;
+    border: none;
+    color: #000;
+    font-family: 'Georgia', serif; /* Serif font for a print catalog feel */
+    font-size: 1rem;
+    margin: 0 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    text-transform: uppercase;
+  }
+  
+  .button-group button:hover {
+    background-color: #ff9800;
+    color: #fff;
+  }
+  
+  
+  .tv-screen {
+    background: #002b00;
+    border: 4px solid #00ff00;
+    border-radius: 12px;
+    padding: 20px;
+    width: 80%;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 0 15px #00ff00;
+  }
+  
+  .screen-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00ff00;
+    font-family: 'VT323', monospace;
+    font-size: 2rem;
+  }
+  
+  .currency {
+    font-size: 1.5rem;
+  }
+  
+  .coin-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .last-update {
+    margin-top: 10px;
+    color: #00ff00;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+  }
+  
