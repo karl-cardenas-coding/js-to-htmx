@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"strings"
 	"text/template"
 	"time"
 
@@ -13,9 +14,10 @@ import (
 
 // PageData is the data structure for the HTML template
 type PageData struct {
-	CoinName    string
-	Price       float64
-	LastUpdated string
+	CoinName     string
+	Price        float64
+	LastUpdated  string
+	CoinLogoPath string
 }
 
 func Server(ctx context.Context, args []string, stdout, stderr *os.File) error {
@@ -31,6 +33,7 @@ func Server(ctx context.Context, args []string, stdout, stderr *os.File) error {
 	// Strip the /static/ prefix from the URL path so that the files are served from / instead of /static/
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", landingPageHandler("web/index.html", PageData{}))
+	http.HandleFunc("/coin", coinPriceHandler("web/coin.html"))
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -48,6 +51,8 @@ func Server(ctx context.Context, args []string, stdout, stderr *os.File) error {
 // landingPageHandler handles the landing page and writes the authentication URL to the page
 func landingPageHandler(indexFile string, data PageData) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+
 		tmp, err := template.ParseFiles(indexFile)
 		if err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -61,7 +66,8 @@ func landingPageHandler(indexFile string, data PageData) http.HandlerFunc {
 
 		data.CoinName = "Bitcoin"
 		data.Price = btc.USD
-		data.LastUpdated = time.Now().Local().Format("15:04:05")
+		data.LastUpdated = time.Now().Local().Format("15:04:05 PM")
+		data.CoinLogoPath = "/static/images/bitcoin.png"
 
 		tmpl := template.Must(tmp, err)
 		err = tmpl.Execute(w, data)
@@ -70,6 +76,44 @@ func landingPageHandler(indexFile string, data PageData) http.HandlerFunc {
 		}
 
 	}
+}
+
+func coinPriceHandler(templateFile string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		w.Header().Set("Content-Type", "text/html")
+
+		tmp, err := template.ParseFiles(templateFile)
+		if err != nil {
+			slog.Error("unable to parse template", "error", err)
+		}
+
+		coinSymbol := r.URL.Query().Get("symbol")
+		if coinSymbol == "" {
+			http.Error(w, "missing coin symbol", http.StatusBadRequest)
+		}
+
+		coin, err := internal.FetchCoinPrice(coinSymbol)
+		if err != nil {
+			http.Error(w, "unable to fetch coin price", http.StatusInternalServerError)
+			return
+		}
+
+		data := PageData{
+			CoinName:     coin.Name,
+			Price:        coin.USD,
+			LastUpdated:  time.Now().Local().Format("15:04:05 PM"),
+			CoinLogoPath: "/static/images/" + strings.ToLower(coinSymbol) + ".png",
+		}
+
+		tmpl := template.Must(tmp, err)
+		err = tmpl.Execute(w, data)
+		if err != nil {
+			slog.Error("unable to execute template", "error", err)
+		}
+
+	}
+
 }
 
 func changeTimeFormat(groups []string, a slog.Attr) slog.Attr {

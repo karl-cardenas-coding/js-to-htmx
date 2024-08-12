@@ -23,33 +23,75 @@
         </div>
         <div class="content-box">
           <div class="button-group">
-            <button >Bitcoin</button>
-            <button >Ethereum</button>
-            <button >USDC</button>
-          </div>
-          <div class="bitcoin-price-container">
-            <div class="heading">
-                {{.CoinName}}
-            </div>
-            <div class="tv-screen">
-              <div class="screen-content">
-                <img src={icon} alt="Coin Icon" class="coin-icon" />
-                <span class="currency">$</span>{{.Price}}
-              </div>
-            </div>
-            <div class="last-update">
-              Last Update:{{.LastUpdated}}
-            </div>
-          </div>
+            <button 
+            hx-swap="innerHTML" 
+            hx-target="#coinData" 
+            hx-get="/coin?symbol=btc" 
+            hx-trigger="load,click" 
+            hx-on="htmx:afterRequest:pollBitcoin"  
+            data-coin="btc">
+            Bitcoin
+          </button>
+
+            <button 
+            hx-swap="innerHTML" 
+            hx-target="#coinData" 
+            hx-get="/coin?symbol=eth" 
+            hx-trigger="click" 
+            hx-on="htmx:afterRequest:pollEth"  
+            data-coin="eth">
+            Ethereum
+          </button>
+
+            <button 
+            hx-swap="innerHTML" 
+            hx-target="#coinData" 
+            hx-get="/coin?symbol=usdc" 
+            hx-trigger="click" 
+            hx-on="htmx:afterRequest:USDC"  
+            data-coin="usdc">
+            USDC
+          </button>
+
+          </div> 
+            <div id="coinData"></div>
         </div>
         <footer class="footer">
-          <a href="#link1">Link 1</a>
-          <a href="#link2">Link 2</a>
-          <a href="#link3">Link 3</a>
+          <a id:="footerLink1" href="https://htmx.org/docs/">HTMX Docs</a>
+          <a id:="footerLink2" href="https://github.com/karl-cardenas-coding/js-to-htmx">
+            <img src="/static/images/github.svg" alt="GitHub" class="icon-github">
+            Repository
+          </a>
         </footer>
       </div>
-    </body>
+      <script>
+        let selectedCoin = null;
+        let pollingInterval = null;
 
-  
+        // Handle button clicks
+        document.querySelectorAll('.button-group button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                // Clear previous polling interval if it exists
+                if (pollingInterval) {
+                    clearInterval(pollingInterval);
+                }
+                // Set the selected coin and start polling
+                selectedCoin = this.getAttribute('data-coin');
+                pollingInterval = setInterval(() => {
+                    htmx.ajax('GET', `/coin?symbol=${selectedCoin}`, {
+                        target: '#coinData',
+                        swap: 'innerHTML'
+                    });
+                }, 10000); // Poll every 10 seconds
+            });
+        });
+
+        // Optionally handle cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+            }
+        });
+      </script>
   </body>
 </html>

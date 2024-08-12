@@ -5,12 +5,23 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
+// CoinPrice is a struct that represents the price of a coin. It contains the name of the coin and the price in U.S. dollars.
 type CoinPrice struct {
+	// Name is the name of the coin
+	Name string `json:"-"`
+	// USD is the price of the coin in U.S. dollars
 	USD float64 `json:"USD"`
 }
 
+// FetchCoinPrice fetches the current price of a coin. The return value is a CoinPrice struct.
+// The symbol parameter is the coin symbol (e.g. BTC, ETH, USDC).
+/*
+  Example:
+  btc, err := internal.FetchCoinPrice("BTC")
+*/
 func FetchCoinPrice(symbol string) (CoinPrice, error) {
 
 	var (
@@ -45,5 +56,20 @@ func FetchCoinPrice(symbol string) (CoinPrice, error) {
 		return output, fmt.Errorf("unable to unmarshal coin data %w", err)
 	}
 
+	output.Name = getCoinName(symbol)
+
 	return output, nil
+}
+
+func getCoinName(symbol string) string {
+	switch strings.ToUpper(symbol) {
+	case "BTC":
+		return "Bitcoin"
+	case "ETH":
+		return "Ethereum"
+	case "USDC":
+		return "USDC"
+	default:
+		return "Unknown"
+	}
 }
