@@ -1,0 +1,25 @@
+.news-section {
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    width: 50%;
+  }
+  
+  .news-section h2 {
+    color: black; /* Heading color fitting the 80s theme */
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .news-section ul {
+    list-style-type: disc; /* Bullet points for the list */
+    padding-left: 20px;
+  }
+  
+  .news-section li {
+    margin-bottom: 10px; /* Space between list items */
+    font-family: Arial, Helvetica, sans-serif; /* Sans-serif font for the heading */
+    font-size: 14px; /* Smaller font size for the list items */
+  }

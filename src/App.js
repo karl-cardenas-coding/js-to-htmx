@@ -2,10 +2,12 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BitcoinPrice from './components/BitcoinPrice';
+import News from './components/News';
 import Ticker from './components/Ticker';
-import bitcoinLogo from './bitcoin.png';
-import ethcoinLogo from './ethereum.png';
-import usdccoinLogo from './usdc.png';
+import bitcoinLogo from './assets/btc.png';
+import ethcoinLogo from './assets/eth.png';
+import usdccoinLogo from './assets/usdc.png';
+import gitHubLogo from './assets/github.svg';
 
 function App() {
   const [portfolio, setPortfolio] = useState({});
@@ -83,6 +85,7 @@ function App() {
 
   return (
     <div className="app">
+      <h1 class="title">JS-to-HTMX</h1>
       <Ticker />
       <div className="content-box">
         <div className="button-group">
@@ -97,11 +100,14 @@ function App() {
           icon={selectedCoin.icon} 
         />
       </div>
-      <footer className="footer">
-        <a href="#link1">Link 1</a>
-        <a href="#link2">Link 2</a>
-        <a href="#link3">Link 3</a>
-      </footer>
+      <News />
+      <footer class="footer">
+          <a id="footerLink1" href="https://htmx.org/docs/">HTMX Docs</a>
+          <a id="footerLink2" href="https://github.com/karl-cardenas-coding/js-to-htmx">
+            <img src={gitHubLogo} alt="GitHub" class="icon-github"/>
+            Repository
+          </a>
+        </footer>
     </div>
   );
 }
