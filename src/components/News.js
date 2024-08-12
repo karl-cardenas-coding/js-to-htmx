@@ -39,7 +39,7 @@ function News() {
                     {news.map((article, index) => (
                         <li key={index}>
                             <a href={article.url} target="_blank" rel="noopener noreferrer">
-                                <strong>{article.title}</strong> - {new Date(article.published_on * 1000).toLocaleString()}
+                                <strong>{article.title}</strong> - {new Date(article.published_on * 1000).toLocaleDateString()}
                             </a>
                         </li>
                     ))}
