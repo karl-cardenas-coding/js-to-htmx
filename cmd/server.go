@@ -18,22 +18,18 @@ type PageData struct {
 	Price        float64
 	LastUpdated  string
 	CoinLogoPath string
+	News         []internal.News
 }
 
+// Server starts the server and serves the web pages
 func Server(ctx context.Context, args []string, stdout, stderr *os.File) error {
-
-	// Set the default logger to text format. Default level is info and time format is changed to "2006/01/02 15:04:05" using local time
-	slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
-		Level:       slog.LevelInfo,
-		ReplaceAttr: changeTimeFormat,
-	})))
-
 	// Serve static files from the web/static directory at /static/
 	fs := http.FileServer(http.Dir("web/static"))
 	// Strip the /static/ prefix from the URL path so that the files are served from / instead of /static/
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", landingPageHandler("web/index.html", PageData{}))
 	http.HandleFunc("/coin", coinPriceHandler("web/coin.html"))
+	http.HandleFunc("/news", newsHandler("web/news.html"))
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -78,6 +74,7 @@ func landingPageHandler(indexFile string, data PageData) http.HandlerFunc {
 	}
 }
 
+// coinPriceHandler handles the coin price page and writes the coin price to the page.
 func coinPriceHandler(templateFile string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -116,11 +113,32 @@ func coinPriceHandler(templateFile string) http.HandlerFunc {
 
 }
 
-func changeTimeFormat(groups []string, a slog.Attr) slog.Attr {
+func newsHandler(templateFile string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 
-	if a.Key == slog.TimeKey {
-		a.Value = slog.StringValue(time.Now().Local().Format("2006/01/02 15:04:05"))
+		w.Header().Set("Content-Type", "text/html")
+
+		tmp, err := template.ParseFiles(templateFile)
+		if err != nil {
+			slog.Error("unable to parse template", "error", err)
+		}
+
+		news, err := internal.FetchNews()
+		if err != nil {
+			http.Error(w, "unable to fetch news", http.StatusInternalServerError)
+			return
+		}
+
+		data := PageData{
+			News: news,
+		}
+
+		tmpl := template.Must(tmp, err)
+		err = tmpl.Execute(w, data)
+		if err != nil {
+			slog.Error("unable to execute template", "error", err)
+		}
+
 	}
-	return a
 
 }

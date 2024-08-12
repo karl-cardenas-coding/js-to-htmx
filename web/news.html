@@ -1,0 +1,12 @@
+
+<h2>Latest News</h2>
+<div id="news-list">
+    <ul>
+        {{range $index, $article := .News}}
+        <li>
+            <a href="{{$article.URL}}" target="_blank" rel="noopener noreferrer"><strong>{{$article.Title}}</strong> - {{$article.PublishedOn}}</a>
+        </li>
+        {{end}}
+    </ul>
+</div>
+
