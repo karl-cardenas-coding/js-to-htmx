@@ -172,7 +172,6 @@ body, html {
   }
 
   .news-section {
-
     padding: 20px;
     border-radius: 8px;
     margin-top: 20px; 
@@ -185,11 +184,14 @@ body, html {
     font-size: 24px;
     margin-bottom: 10px;
     text-align: center;
+    justify-content: center;
   }
   
   .news-section ul {
     list-style-type: disc; /* Bullet points for the list */
-    padding-left: 20px;
+    list-style-position: inside; /* Ensures bullets are part of the content */
+    padding-left: 0; /* Remove default padding */
+    text-align: center; /* Center align the bullets and text */
   }
   
   .news-section li {
@@ -197,3 +199,4 @@ body, html {
     font-family: Arial, Helvetica, sans-serif; /* Sans-serif font for the heading */
     font-size: 14px; /* Smaller font size for the list items */
   }
+  

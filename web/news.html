@@ -4,7 +4,7 @@
     <ul>
         {{range $index, $article := .News}}
         <li>
-            <a href="{{$article.URL}}" target="_blank" rel="noopener noreferrer"><strong>{{$article.Title}}</strong> - {{$article.PublishedOn}}</a>
+            <a href="{{$article.URL}}" target="_blank" rel="noopener noreferrer"><strong>{{$article.Title}}</strong> - {{$article.PublishedOnString}}</a>
         </li>
         {{end}}
     </ul>

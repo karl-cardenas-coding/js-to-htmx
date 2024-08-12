@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"time"
 )
 
 // CoinPrice is a struct that represents the price of a coin. It contains the name of the coin and the price in U.S. dollars.
@@ -27,19 +28,20 @@ type NewsFeed struct {
 }
 
 type News struct {
-	ID          string `json:"id"`
-	GUID        string `json:"guid"`
-	PublishedOn int    `json:"published_on"`
-	Imageurl    string `json:"imageurl"`
-	Title       string `json:"title"`
-	URL         string `json:"url"`
-	Body        string `json:"body"`
-	Tags        string `json:"tags"`
-	Lang        string `json:"lang"`
-	Upvotes     string `json:"upvotes"`
-	Downvotes   string `json:"downvotes"`
-	Categories  string `json:"categories"`
-	SourceInfo  struct {
+	ID                string `json:"id"`
+	GUID              string `json:"guid"`
+	PublishedOn       int    `json:"published_on"`
+	PublishedOnString string `json:"-"`
+	Imageurl          string `json:"imageurl"`
+	Title             string `json:"title"`
+	URL               string `json:"url"`
+	Body              string `json:"body"`
+	Tags              string `json:"tags"`
+	Lang              string `json:"lang"`
+	Upvotes           string `json:"upvotes"`
+	Downvotes         string `json:"downvotes"`
+	Categories        string `json:"categories"`
+	SourceInfo        struct {
 		Name string `json:"name"`
 		Img  string `json:"img"`
 		Lang string `json:"lang"`
@@ -141,11 +143,17 @@ func FetchNews() ([]News, error) {
 		return output, fmt.Errorf("unable to unmarshal news data %w", err)
 	}
 
-	if len(newsList.Data) < 5 {
-		return newsList.Data, nil
+	// Convert the publishedOn field to a human-readable date but only for the top 5 news articles
+	for i := 0; i < 5; i++ {
+		newTime := time.Unix(int64(newsList.Data[i].PublishedOn), 0).Format("2006-01-02")
+		newsList.Data[i].PublishedOnString = newTime
 	}
 
-	output = newsList.Data[:5]
+	output = newsList.Data
+
+	if len(newsList.Data) > 5 {
+		output = newsList.Data[:5]
+	}
 
 	return output, nil
 }
