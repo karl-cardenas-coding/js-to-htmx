@@ -44,7 +44,7 @@ archives:
       - goos: windows
         format: zip
 
-  - files:
+    files:
       - none*
 
 
