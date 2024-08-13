@@ -6,6 +6,17 @@ body, html {
   font-family: 'Press Start 2P', cursive; /* Retro font */
   background: linear-gradient(135deg, #ffa726, #ffd54f); /* Smooth background with orange and yellow */
   color: #fff; /* Text color */
+  overflow-x: hidden
+}
+
+body {
+  padding-bottom: 60px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-family: DejaVu Sans, sans-serif;
+  color: black;
 }
 
 .app {
@@ -13,13 +24,7 @@ body, html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-}
-
-.title {
-  font-size: 2.5rem;
-  font-family: DejaVu Sans, sans-serif;
-  color: black;
+  min-height: 100vh; /* Allow content to grow if necessary */
 }
 
 .content-box {
@@ -31,10 +36,9 @@ body, html {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   text-align: center;
 }
-
 .footer {
-  position: fixed;
-  bottom: 10px;
+  position: relative; /* Changed from sticky to relative */
+  margin-top: 40px; /* Ensure there's space between content and footer */
   width: 100%;
   text-align: center;
 }

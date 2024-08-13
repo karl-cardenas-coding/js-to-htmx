@@ -2,8 +2,9 @@
   padding: 20px;
   border-radius: 8px;
   margin-top: 20px; 
-  margin-bottom: 20px; 
+  margin-bottom: 50px; /* Increased to ensure space between news section and footer */
   width: 50%;
+  max-width: 100%; /* Ensure the section doesn't exceed the screen width */
 }
 
 .news-section h2 {
@@ -25,4 +26,15 @@
   margin-bottom: 10px; /* Space between list items */
   font-family: Arial, Helvetica, sans-serif; /* Sans-serif font for the heading */
   font-size: 14px; /* Smaller font size for the list items */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .news-section {
+      width: 90%; /* Adjust width for smaller screens */
+  }
+
+  .news-section ul {
+      text-align: left; /* Align text to the left for better readability */
+  }
 }

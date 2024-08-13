@@ -12,20 +12,12 @@
     margin-bottom: 20px;
   }
   
-  .button-group {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-/* BitcoinPrice.css */
-
-.button-group button {
+  .button-group button {
     background-color: #ffb74d;
     border: none;
     color: #000;
     font-family: 'Georgia', serif; /* Serif font for a print catalog feel */
-    font-size: 1rem;
+    font-size: 1rem; /* Base font size */
     margin: 0 10px;
     padding: 10px 20px;
     cursor: pointer;
@@ -37,6 +29,34 @@
     background-color: #ff9800;
     color: #fff;
   }
+  
+  /* Medium screens (tablets, smaller laptops) */
+  @media (max-width: 1024px) {
+    .button-group button {
+        font-size: 0.9rem; /* Slightly smaller font size */
+        padding: 8px 16px; /* Adjust padding for medium screens */
+        margin: 0 8px; /* Reduce margin between buttons */
+    }
+  }
+  
+  /* Small screens (large smartphones, small tablets) */
+  @media (max-width: 768px) {
+    .button-group button {
+        font-size: 0.8rem; /* Further reduce font size */
+        padding: 6px 12px; /* Adjust padding for smaller screens */
+        margin: 0 6px; /* Further reduce margin between buttons */
+    }
+  }
+  
+  /* Extra small screens (smartphones) */
+  @media (max-width: 480px) {
+    .button-group button {
+        font-size: 0.7rem; /* Even smaller font size */
+        padding: 5px 10px; /* Adjust padding for extra small screens */
+        margin: 0 4px; /* Further reduce margin between buttons */
+    }
+  }
+  
   
   
   .tv-screen {

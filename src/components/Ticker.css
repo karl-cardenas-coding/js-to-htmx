@@ -1,29 +1,52 @@
 /* Ticker.css */
 .ticker-container {
-    background-color: #000;
-    overflow: hidden;
-    white-space: nowrap;
-    padding: 15px 0;
-    border-top: 4px solid #ff0000; /* Red border */
-    border-bottom: 4px solid #ff0000; /* Red border */
-    box-shadow: 0 0 15px #ff0000; /* Red glow effect */
-    margin-bottom: 30px; /* Add spacing below the ticker */
-  }
-  
-  .ticker-content {
-    display: inline-block;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 2rem; /* Increase font size */
-    color: #ff0000; /* Red text color */
-    animation: ticker 10s linear infinite;
-  }
-  
-  @keyframes ticker {
-    0% {
+  background-color: #000;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 1em 0;
+  border-top: 4px solid #ff0000; /* Red border */
+  border-bottom: 4px solid #ff0000; /* Red border */
+  box-shadow: 0 0 15px #ff0000; /* Red glow effect */
+  margin-bottom: 50px; /* Ensure there's space below the ticker */
+  display: flex;
+  justify-content: center; /* Center the ticker content horizontally */
+  align-items: center; /* Center the ticker content vertically */
+}
+
+.ticker-content {
+  display: inline-block;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 2rem; /* Increase font size */
+  color: #ff0000; /* Red text color */
+  animation: ticker 10s linear infinite;
+}
+
+@keyframes ticker {
+  0% {
       transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
   }
-  
+  100% {
+      transform: translateX(-100%);
+  }
+}
+
+/* Medium screens (tablets, smaller laptops) */
+@media (max-width: 1024px) {
+  .ticker-container {
+      padding: 1.5em 0; /* Slightly reduce padding for medium screens */
+  }
+}
+
+/* Small screens (large smartphones, small tablets) */
+@media (max-width: 768px) {
+  .ticker-container {
+      padding: 1.5em 0; /* Further reduce padding for small screens */
+  }
+}
+
+/* Extra small screens (smartphones) */
+@media (max-width: 480px) {
+  .ticker-container {
+      padding: 1.5em 0; /* Minimum padding for extra small screens */
+  }
+}
