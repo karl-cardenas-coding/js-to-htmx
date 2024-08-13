@@ -25,8 +25,11 @@ type PageData struct {
 func Server(ctx context.Context, args []string, stdout, stderr *os.File) error {
 	// Serve static files from the web/static directory at /static/
 	fs := http.FileServer(http.Dir("web/static"))
+
+	// Wrap FileServer with cache control handler
+	cacheControlHandler := cacheControlFileServer(fs)
 	// Strip the /static/ prefix from the URL path so that the files are served from / instead of /static/
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	http.Handle("/static/", http.StripPrefix("/static/", cacheControlHandler))
 	http.HandleFunc("/", landingPageHandler("web/index.html", PageData{}))
 	http.HandleFunc("/coin", coinPriceHandler("web/coin.html"))
 	http.HandleFunc("/news", newsHandler("web/news.html"))
@@ -144,4 +147,15 @@ func newsHandler(templateFile string) http.HandlerFunc {
 
 	}
 
+}
+
+// cacheControlFileServer sets the cache control header for static files
+func cacheControlFileServer(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if ext := r.URL.Path[len(r.URL.Path)-4:]; ext == ".jpg" || ext == ".png" || ext == ".gif" || ext == ".webp" || ext == ".svg" {
+			// Cache for 90 days
+			w.Header().Set("Cache-Control", "public, max-age=7776000")
+		}
+		h.ServeHTTP(w, r)
+	})
 }
