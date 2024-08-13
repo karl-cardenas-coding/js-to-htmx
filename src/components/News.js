@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) karl-cardenas-coding
+ * SPDX-License-Identifier: MIT
+ */
+
 import React, { useState, useEffect } from 'react';
 import './News.css';
 

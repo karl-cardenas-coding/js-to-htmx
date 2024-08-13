@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) karl-cardenas-coding
+ * SPDX-License-Identifier: MIT
+ */
+
 import React from 'react';
 import './BitcoinPrice.css';
 
