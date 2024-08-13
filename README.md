@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="/web/static/images/js-to-htmx.png" alt="drawing" width="600"/>
+  <img src="/web/static/images/js-to-htmx.png" alt="drawing" width="400"/>
 </p>
 
 
