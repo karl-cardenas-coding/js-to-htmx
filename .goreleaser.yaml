@@ -30,6 +30,11 @@ upx:
     goos: [linux, darwin]
 
 
+git:
+  ignore_tags:
+    - "{{.Env.IGNORE_TAG}}"
+    - "/^v[0-9.]+$/"
+
 archives:
   - format: zip
     name_template: >-
