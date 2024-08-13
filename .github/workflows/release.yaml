@@ -86,7 +86,7 @@ jobs:
          ref: "htmx"
          fetch-depth: 0
 
-      - run: git fetch --force --tags
+      # - run: git fetch --force --tags
 
       - uses: actions/setup-go@v4
         with:
@@ -106,7 +106,7 @@ jobs:
       - uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
-          args: release --clean
+          args: release --clean --verbose
           version: '~> v2'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
