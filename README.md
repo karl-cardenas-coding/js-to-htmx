@@ -4,4 +4,4 @@
   <img src="web/static/images/js-to-htmx.png" alt="drawing" width="400"/>
 </p>
 
-An example project to showcase the value of HTMX 
+An example project to showcase the value of [HTMX](https://htmx.org/). 
