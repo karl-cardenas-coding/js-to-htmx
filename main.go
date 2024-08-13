@@ -2,12 +2,16 @@ package main
 
 import (
 	"context"
+	"embed"
 	"log/slog"
 	"os"
 	"time"
 
 	"github.com/karl-cardenas-coding/js-to-htmx/cmd"
 )
+
+//go:embed web
+var web embed.FS
 
 func main() {
 
@@ -32,7 +36,7 @@ func run(
 		ReplaceAttr: changeTimeFormat,
 	})))
 
-	return cmd.Server(ctx, args, stdout, stderr)
+	return cmd.Server(ctx, args, stdout, stderr, web)
 }
 
 // changeTimeFormat is a custom attribute replacer that changes the time format to "2006/01/02 15:04:05"

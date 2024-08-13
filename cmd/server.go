@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"context"
+	"embed"
+	"io/fs"
 	"log/slog"
 	"net/http"
 	"os"
@@ -22,17 +24,23 @@ type PageData struct {
 }
 
 // Server starts the server and serves the web pages
-func Server(ctx context.Context, args []string, stdout, stderr *os.File) error {
+func Server(ctx context.Context, args []string, stdout, stderr *os.File, assets embed.FS) error {
+
+	fSys, err := fs.Sub(assets, "web/static")
+	if err != nil {
+		return err
+	}
+
 	// Serve static files from the web/static directory at /static/
-	fs := http.FileServer(http.Dir("web/static"))
+	fs := http.FileServer(http.FS(fSys))
 
 	// Wrap FileServer with cache control handler
 	cacheControlHandler := cacheControlFileServer(fs)
 	// Strip the /static/ prefix from the URL path so that the files are served from / instead of /static/
 	http.Handle("/static/", http.StripPrefix("/static/", cacheControlHandler))
-	http.HandleFunc("/", landingPageHandler("web/index.html", PageData{}))
-	http.HandleFunc("/coin", coinPriceHandler("web/coin.html"))
-	http.HandleFunc("/news", newsHandler("web/news.html"))
+	http.HandleFunc("/", landingPageHandler(PageData{}, "web/index.html", assets))
+	http.HandleFunc("/coin", coinPriceHandler("web/coin.html", assets))
+	http.HandleFunc("/news", newsHandler("web/news.html", assets))
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -40,7 +48,7 @@ func Server(ctx context.Context, args []string, stdout, stderr *os.File) error {
 	}
 	serverPort := "http://localhost:" + port
 	slog.Info("Server started", "URL", serverPort)
-	err := http.ListenAndServe(":"+port, nil)
+	err = http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		return err
 	}
@@ -48,12 +56,12 @@ func Server(ctx context.Context, args []string, stdout, stderr *os.File) error {
 }
 
 // landingPageHandler handles the landing page and writes the authentication URL to the page
-func landingPageHandler(indexFile string, data PageData) http.HandlerFunc {
+func landingPageHandler(data PageData, templateFile string, assets fs.FS) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
 		w.Header().Set("Cache-Control", "no-cache")
 
-		tmp, err := template.ParseFiles(indexFile)
+		tmp, err := template.ParseFS(assets, templateFile)
 		if err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			slog.Error("unable to parse template", "error", err)
@@ -79,13 +87,13 @@ func landingPageHandler(indexFile string, data PageData) http.HandlerFunc {
 }
 
 // coinPriceHandler handles the coin price page and writes the coin price to the page.
-func coinPriceHandler(templateFile string) http.HandlerFunc {
+func coinPriceHandler(templateFile string, assets fs.FS) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		w.Header().Set("Content-Type", "text/html")
 		w.Header().Set("Cache-Control", "no-cache")
 
-		tmp, err := template.ParseFiles(templateFile)
+		tmp, err := template.ParseFS(assets, templateFile)
 		if err != nil {
 			slog.Error("unable to parse template", "error", err)
 		}
@@ -118,13 +126,13 @@ func coinPriceHandler(templateFile string) http.HandlerFunc {
 
 }
 
-func newsHandler(templateFile string) http.HandlerFunc {
+func newsHandler(templateFile string, assets fs.FS) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		w.Header().Set("Content-Type", "text/html")
 		w.Header().Set("Cache-Control", "max-age=3600")
 
-		tmp, err := template.ParseFiles(templateFile)
+		tmp, err := template.ParseFS(assets, templateFile)
 		if err != nil {
 			slog.Error("unable to parse template", "error", err)
 		}
