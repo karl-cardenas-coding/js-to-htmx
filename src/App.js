@@ -20,7 +20,7 @@ function App() {
     name: 'Bitcoin',
     title: 'Bitcoin',
     price: 'Loading...',
-    lastUpdate: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
+    lastUpdate: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }),
     icon: bitcoinLogo,
   });
 
@@ -43,10 +43,10 @@ function App() {
     // Initial fetch
     fetchExchangeRates();
 
-    // Set interval for fetching data every 1 minute (60000 milliseconds)
+    // Set interval for fetching data every 10 seconds
     const intervalId = setInterval(() => {
       fetchExchangeRates();
-    }, 60000);
+    }, 10000);
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
@@ -67,7 +67,7 @@ function App() {
       setSelectedCoin(prevState => ({
         ...prevState,
         price: portfolio[coinKey],
-        lastUpdate: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
+        lastUpdate: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }),
       }));
     }
   }, [portfolio, selectedCoin.name]);
@@ -77,7 +77,7 @@ function App() {
       name: coin,
       title: coins[coin].title,
       price: portfolio[coin] || 'Loading...',
-      lastUpdate: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
+      lastUpdate: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }),
       icon: coins[coin].icon,
     });
   };
