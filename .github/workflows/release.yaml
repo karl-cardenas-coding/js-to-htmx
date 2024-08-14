@@ -108,12 +108,12 @@ jobs:
           version: '~> v2'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
+  
       
   JS-Docker:
     name: JS Docker Image Build and Push
     needs: [tag]
+    if: ${{ needs.tag.outputs.SAME_VERSION == 'false' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

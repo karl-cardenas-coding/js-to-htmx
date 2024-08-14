@@ -80,7 +80,9 @@ yarn-debug.log*
 yarn-error.log*
 
 
-# .Env
+# Nuxt.js build / generate output
+.nuxt
+dist/
 
 .env
 # Gatsby files
