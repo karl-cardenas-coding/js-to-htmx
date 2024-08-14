@@ -86,8 +86,6 @@ jobs:
          ref: "htmx"
          fetch-depth: 0
 
-      # - run: git fetch --force --tags
-
       - uses: actions/setup-go@v4
         with:
           go-version: ${{ env.GO_VERSION }}
@@ -115,6 +113,7 @@ jobs:
   JS-Docker:
     name: JS Docker Image Build and Push
     needs: [tag]
+    if: ${{ needs.tag.outputs.SAME_VERSION == 'false' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
