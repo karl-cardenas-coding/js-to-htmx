@@ -34,7 +34,7 @@ A few differences between the two versions of the applications stand out:
 
 - The React version downloads `2 MB` of data on the initial load, while the HTMX version downloads `1.8 MB`. HTMX reduces the amount of data downloaded by `200 KB`, a `10% reduction in data.
 
-The HTMX version uses server-side rendering to render the initial page, while the React version uses client-side rendering. This allows the HTMX version to render the page faster than the React version. However, the React version can also be optimized to use server-side rendering, but this is not the main focus of this project.
+- The HTMX version uses server-side rendering to render the initial page, while the React version uses client-side rendering. This allows the HTMX version to render the page faster than the React version. However, the React version can also be optimized to use server-side rendering, but this is not the main focus of this project.
 
 - The HTMX version uses only `30 lines` of custom JavaScript code for the frontend. HTML, CSS, and the HTMX library power the remainder of the code base. 
 
