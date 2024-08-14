@@ -110,39 +110,11 @@ jobs:
           version: '~> v2'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  js:
-    name: JavaScript Build
-    needs: [tag]
-    runs-on: ubuntu-latest
-    if: ${{ needs.tag.outputs.SAME_VERSION == 'false' }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: "js"
-          fetch-depth: 0
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.JS_VERSION }}
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
-
-      - name: Archive
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-    
+  
       
   JS-Docker:
     name: JS Docker Image Build and Push
-    needs: [tag, goreleaser]
+    needs: [tag]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
